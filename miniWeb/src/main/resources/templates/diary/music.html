@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Music</title>
+
+
+</head>
+<body>
+<script th:inline="javascript" >
+    var senti = [[${sentiment}]];
+
+    if(senti == "positive"){
+        suggest("https://www.youtube.com/watch?v=WKqasNKfcFY");
+    }
+    else if(senti == "negative"){
+        suggest("https://www.youtube.com/watch?v=pgsathBaftg");
+    }
+    else if(senti == "neutral"){
+        suggest("https://www.youtube.com/watch?v=lbOKEVS7uqA");
+    }
+    else{
+        window.onload = function(){
+            var a = document.getElementById('error').innerHTML = "Error";
+        }
+    }
+
+    function suggest(url){
+        var returnValue = confirm('노래 추천을 받으시겠습니까?');
+
+        if(returnValue == true){ location.href=url; }
+        else{ location.href="http://localhost:8080/" }
+    }
+
+    </script>
+
+    <span id="error"></span>
+</body>
+</html>

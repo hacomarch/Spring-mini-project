@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Diary List</title>
+    <style>
+        ul{
+            margin-top: 20px;
+        }
+
+        ul li{
+            list-style-type: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div>
+
+        <button th:onclick="|location.href='@{/diary/new}'|" type="button">글쓰기</button>
+        <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
+
+        <table>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성일</th>
+            </tr>
+
+            <tr th:each="diary : ${page}">
+                <td >
+                    <span th:text="${diaryStat.count}"></span>
+                </td>
+                <td>
+                    <a th:href="@{/diary/{diaryIdx}/Info(diaryIdx=${diary.diaryIdx})}">
+                        <span th:text="${diary.title}"></span>
+                    </a>
+                </td>
+
+                <td>
+                    <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            <ul>
+                <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
+                    <a th:href="@{/{memberIdx}/diary(memberIdx=${memberIdx}, page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                </li>
+            </ul>
+        </div>
+
+        <br>
+
+
+        <form action="/diary/search" method="GET">
+            <input type="text" name="keyword" placeholder="검색어를 입력해주세요">
+            <button>검색</button>
+        </form>
+
+
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Write Info</title>
+
+</head>
+<body>
+<div th:each="diary : ${diaryInfo}">
+    <div>
+        <div>
+            <span>제목 : </span>
+            <span th:text="${diary.title}"></span>
+            | 날짜 : <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
+            <span>
+                <button th:onclick="|location.href='@{/diary/{diaryIdx}/edit(diaryIdx=${diary.diaryIdx})}'|" type="button">수정</button>
+            </span>
+            <span>
+                <button th:onclick="|location.href='@{/diary/{diaryIdx}/delete(diaryIdx=${diary.diaryIdx})}'|" type="button">삭제</button>
+            </span>
+        </div>
+        <hr>
+        <div>
+            <span th:text="${diary.content}"></span>
+
+        </div>
+    </div>
+
+    <div>
+        <img th:each="imageFile : ${imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
+    </div>
+
+    <br>
+
+    <div>
+        <form th:action="@{/diary/{diaryIdx}/music(diaryIdx=${diary.diaryIdx})}">
+            <button type="submit">노래 추천</button>
+        </form>
+    </div>
+
+    <br>
+
+    <span>
+        <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인으로</button>
+    </span>
+
+
+
+</div>
+</body>
+</html>

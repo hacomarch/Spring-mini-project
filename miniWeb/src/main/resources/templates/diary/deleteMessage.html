@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Really Delete?</title>
+
+    <th:blcok th:if="${#strings.length(data.message) != 0}">
+        <script>
+            top.alert("[[${data.message}]]");
+        </script>
+    </th:blcok>
+
+    <th:blcok th:if="${#strings.length(data.href) != 0}">
+        <script>
+            top.location.href = '[[${data.href}]]';
+        </script>
+    </th:blcok>
+</head>
+<body>
+
+</body>
+</html>

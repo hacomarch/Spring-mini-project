@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reply Write</title>
+</head>
+<body>
+<form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBookIdx})}" th:object="${replyForm}" method="post">
+    <input type="hidden" th:field="*{replyIdx}"/>
+    <div>
+        내용 : <input type="text" th:field="*{replyContent}" class="form-control" required>
+        <button type="submit">등록</button>
+    </div>
+
+</form>
+
+</body>
+</html>

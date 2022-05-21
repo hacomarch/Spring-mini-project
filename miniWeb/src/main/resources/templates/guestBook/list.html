@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GuestBook</title>
+
+    <style>
+        ul{
+            margin-top: 20px;
+        }
+
+        ul li{
+            list-style-type: none;
+            display: inline-block;
+        }
+    </style>
+
+    <script>
+        function callReplyForm(){
+            var form = document.getElementById("replyWrite");
+            if(form.style.display == 'none'){
+                form.style.display = 'block';
+            }else{
+                form.style.display = 'none';
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+<form th:action="@{guestBook/new}" th:object="${guestBookForm}" method="post">
+    <textarea th:field=*{comments} cols="50" rows="10" required></textarea>
+    <button type="submit">등록</button>
+</form>
+
+<hr>
+
+<div th:each="guestBook : ${pageList}">
+    <div>
+        <span th:text="${guestBookStat.count}"></span>
+        작성자:<span th:text="${guestBook.getGuestBookMember().getName()}"></span>
+        | <span th:text="${#temporals.format(guestBook.created, 'yyyy-MM-dd')}"></span>
+    </div>
+
+    <div>
+        내용 : <span th:text="${guestBook.comments}"></span>
+<!--        <a th:href="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}">댓글</a>-->
+<!--        <button type="button" onclick="callReplyForm();">댓글</button>-->
+
+        <form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}" th:object="${replyForm}" method="post">
+            <input type="hidden" th:field="*{replyIdx}"/>
+            <div id="replyWrite">
+                <input type="text" th:field="*{replyContent}" class="form-control" required>
+                <button type="submit">댓글</button>
+            </div>
+        </form>
+
+
+
+<!--        <div th:each="reply : ${replyInfo}">-->
+<!--            <div>-->
+<!--                내용 : <span th:text="${reply.replyContent}"></span>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                글 id : <span th:text="${reply.guestBookCmtIdx.getCommentIdx()}"></span>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                작성자닉네임 : <span th:text="${reply.replyMember.getNickname()}"></span>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+    <hr>
+</div>
+
+<button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
+
+<div>
+    <ul>
+        <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
+            <a th:href="@{/guestBook(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+        </li>
+    </ul>
+</div>
+
+
+</body>
+</html>

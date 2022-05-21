@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+ .field-error {
+    color: red;
+ }
+</style>
+<body>
+<div>
+    <div>
+    <form role="form" action="/members/new" th:object="${memberForm}" method="post" enctype="multipart/form-data">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}">오류 메시지</p>
+        </div>
+
+        <div>
+            <label th:for="name">이름</label>
+            <input type="text" th:field="*{name}" class="form-control">
+        </div>
+        <div>
+            <label th:for="id">아이디</label>
+            <input type="text" th:field="*{id}" class="form-control" required>
+        </div>
+        <div>
+            <label th:for="password">비밀번호</label>
+            <input type="text" th:field="*{password}" class="form-control" required>
+        </div>
+        <div>
+            <label th:for="age">나이</label>
+            <input type="text" th:field="*{age}" class="form-control" required>
+        </div>
+        <div>
+            <label th:for="tel">전화번호</label>
+            <input type="text" th:field="*{tel}" class="form-control" required>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+    <br/>
+
+</div> <!-- /container -->
+</body>
+</html>

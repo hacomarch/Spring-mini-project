@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Miary</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+</head>
+<body>
+    <div>
+        <h2>홈 화면</h2>
+    </div>
+
+    <div>
+        <p>
+            <button type="button" th:onclick="|location.href='@{/members/new}'|">
+                회원 가입
+            </button>
+        </p>
+        <p>
+            <button th:onclick="|location.href='@{/login}'|" type="button">
+                로그인
+            </button>
+        </p>
+
+        <hr>
+
+        <p>
+            <button th:onclick="|location.href='@{/members}'|" type="button">
+                회원 정보 - 관리자용
+            </button>
+        </p>
+    </div>
+
+</body>
+</html>

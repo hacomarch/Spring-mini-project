@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Diary</title>
+</head>
+<body>
+    <form th:action="@{/diary/{diaryIdx}/edit}" th:object="${diaryInfo}" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" th:field="*{diaryIdx}" />
+        <input type="hidden" th:field="*{created}"/>
+
+        <div>
+            <label th:for="title">제목</label>
+            <input type="text" th:field="*{title}" class="form-control" required>
+        </div>
+        <br>
+        <div>
+            <textarea th:field="*{content}" rows="10" cols="30" class="form-control" required></textarea>
+        </div>
+        <div>
+            <input type="file" multiple="multiple" th:field="*{imageFiles}">
+        </div>
+
+        <button type="submit">등록</button>
+    </form>
+</body>
+</html>

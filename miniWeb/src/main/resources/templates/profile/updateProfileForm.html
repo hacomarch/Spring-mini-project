@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Profile</title>
+</head>
+<body>
+<form th:action="@{/profile/{profileIdx}/edit(profileIdx=*{profileIdx})}" th:object="${profileUpdateForm}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:filed="*{profileIdx}"/>
+    <div>
+        <label th:for="nickname">닉네임 : </label>
+        <input type="text" th:field="*{nickname}" class="form-control" required>
+    </div>
+    <br>
+    <div>
+        <label th:for="aboutMe">자기소개 : </label>
+        <textarea th:field="*{aboutMe}" class="form-control" required></textarea>
+    </div>
+    <div>
+        프사 변경 : <input type="file" multiple="multiple" th:field="*{profileImage}">
+        <br>
+        <button th:onclick="|location.href='@{/{profileIdx}/profileImageDelete(profileIdx=*{profileIdx})}'|" type="button">프사 삭제</button>
+    </div>
+
+    <br>
+    <button type="submit">등록</button>
+</form>
+</body>
+</html>

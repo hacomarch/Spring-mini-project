@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Diary List Search</title>
+  <style>
+        ul{
+            margin-top: 20px;
+        }
+
+        ul li{
+            list-style-type: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div>
+
+  <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
+
+  <table>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성일</th>
+    </tr>
+
+    <tr th:each="diary : ${diaryList}">
+      <td >
+        <span th:text="${diaryStat.count}"></span>
+      </td>
+      <td>
+        <a th:href="@{/diary/{diaryIdx}/Info(diaryIdx=${diary.diaryIdx})}">
+          <span th:text="${diary.title}"></span>
+        </a>
+      </td>
+
+      <td>
+        <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
+      </td>
+    </tr>
+  </table>
+
+  <button th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${diary.member.memberIdx})}'|" type="button">일기장</button>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze');
+            xhr.setRequestHeader('X-NCP-APIGW-API-KEY-ID', 'kd9peerq63');
+            xhr.setRequestHeader('X-NCP-APIGW-API-KEY', 'kIt19rB5YFihpiKdDVcOi4CX4SoMmULYrmLyIhZT');
+            xhr.setRequestHeader('Content-type', 'application/json');
+
+            const data = {content:'너무 힘들어'};
+
+            xhr.send(JSON.stringify(data));
+
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+                if (xhr.status === 200) {
+                  console.log(xhr.responseText);
+
+                  document.getElementById('content').innerHTML = xhr.responseText;
+                } else {
+                  console.log(`[${xhr.status}] : ${xhr.statusText}`);
+                }
+            };
+
+    </script>
+
+    <form th:action="@{/music}" method="post">
+        <button type="submit" formmethod="POST">노래 추천</button>
+    </form>
+</body>
+</html>
