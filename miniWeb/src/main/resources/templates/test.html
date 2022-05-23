@@ -2,39 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Test</title>
+    <style>
+        .nickname_ok{
+            color:#fff;
+            display:none;
+        }
+        .nickname_already{
+            color:#6A82FB;
+            display:none;
+        }
+    </style>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        function checkNickname(){
+            var nickname = $('#nickname').val();
+            $.ajax({
+                url:'/profile/nicknameCheck',
+                type:'post',
+                data:{nickname:nickname},
+                success:function(){
+                    console.log("처리 성공");
+                },
+                error.function()[
+                    alert("에러");
+                }
+            });
+        };
+    </script>
 
 </head>
 <body>
-    <div id="content"></div>
-    <script>
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze');
-            xhr.setRequestHeader('X-NCP-APIGW-API-KEY-ID', 'kd9peerq63');
-            xhr.setRequestHeader('X-NCP-APIGW-API-KEY', 'kIt19rB5YFihpiKdDVcOi4CX4SoMmULYrmLyIhZT');
-            xhr.setRequestHeader('Content-type', 'application/json');
+<form th:action="@{/profile/new}" th:object="${profileForm}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{profileIdx}"/>
+    <div>
+        <label th:for="nickname">닉네임 : </label>
+        <input type="text" th:field="*{nickname}" id="nickname" oninput="checkNickname()" class="form-control" required>
+        <span clas="nickname_ok">사용 가능한 닉네임입니다.</span>
+        <span clas="nickname_already">누군가 이 닉네임을 사용하고 있어요.</span>
 
-            const data = {content:'너무 힘들어'};
-
-            xhr.send(JSON.stringify(data));
-
-            xhr.onreadystatechange = function(){
-                if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-                if (xhr.status === 200) {
-                  console.log(xhr.responseText);
-
-                  document.getElementById('content').innerHTML = xhr.responseText;
-                } else {
-                  console.log(`[${xhr.status}] : ${xhr.statusText}`);
-                }
-            };
-
-    </script>
-
-    <form th:action="@{/music}" method="post">
-        <button type="submit" formmethod="POST">노래 추천</button>
-    </form>
+    </div>
+    <div>
+        <label th:for="aboutMe">자기소개 : </label>
+        <textarea th:field="*{aboutMe}" class="form-control" required></textarea>
+    </div>
+    <div>
+        프로필 사진 : <input type="file" multiple="multiple" th:field="*{profileImage}">
+    </div>
+    <br>
+    <button type="submit">등록</button>
+</form>
 </body>
 </html>

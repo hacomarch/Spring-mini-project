@@ -36,17 +36,15 @@
 
 <hr>
 
-<div th:each="guestBook : ${pageList}">
+<div th:each="guestBook : ${pageList}" >
     <div>
         <span th:text="${guestBookStat.count}"></span>
-        작성자:<span th:text="${guestBook.getGuestBookMember().getName()}"></span>
+        작성자 : <span th:text="${guestBook.getGuestBookMember().getProfile().getNickname()}"></span>
         | <span th:text="${#temporals.format(guestBook.created, 'yyyy-MM-dd')}"></span>
     </div>
 
     <div>
         내용 : <span th:text="${guestBook.comments}"></span>
-<!--        <a th:href="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}">댓글</a>-->
-<!--        <button type="button" onclick="callReplyForm();">댓글</button>-->
 
         <form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}" th:object="${replyForm}" method="post">
             <input type="hidden" th:field="*{replyIdx}"/>
@@ -55,21 +53,12 @@
                 <button type="submit">댓글</button>
             </div>
         </form>
-
-
-
-<!--        <div th:each="reply : ${replyInfo}">-->
-<!--            <div>-->
-<!--                내용 : <span th:text="${reply.replyContent}"></span>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                글 id : <span th:text="${reply.guestBookCmtIdx.getCommentIdx()}"></span>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                작성자닉네임 : <span th:text="${reply.replyMember.getNickname()}"></span>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
+
+<!--    <div th:each="reply : ${guestBook.getReplies()}">-->
+<!--        작성자 : <span th:text="${reply.replyMember.getProfile().getNickname()}"></span>-->
+<!--        | 댓글 내용 : <span th:text="${reply.replyContent}"></span>-->
+<!--    </div>-->
     <hr>
 </div>
 

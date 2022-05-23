@@ -19,7 +19,7 @@ public class ProfileImage {
     private String uploadFileName;
     private String storeFileName;
 
-    @ManyToOne(targetEntity = Profile.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Profile.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profileIdx")
     private Profile profileImage;
 

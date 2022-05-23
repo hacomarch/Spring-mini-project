@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile Write</title>
+
+    <style>
+        .field-error{
+            color : red;
+        }
+    </style>
 </head>
 <body>
 <form th:action="@{/profile/new}" th:object="${profileForm}" method="post" enctype="multipart/form-data">
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+           th:text="${err}">오류 메시지</p>
+    </div>
     <input type="hidden" th:field="*{profileIdx}"/>
     <div>
         <label th:for="nickname">닉네임 : </label>

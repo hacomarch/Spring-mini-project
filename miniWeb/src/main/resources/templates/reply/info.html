@@ -10,10 +10,7 @@
         내용 : <span th:text="${reply.replyContent}"></span>
     </div>
     <div>
-        글 id : <span th:text="${reply.guestBookCmtIdx.getCommentIdx()}"></span>
-    </div>
-    <div>
-        작성자 : <span th:text="${reply.replyMember.getName()}"></span>
+        작성자 : <span th:text="${reply.replyMember.getProfile().getNickname()}"></span>
     </div>
 </div>
 

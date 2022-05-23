@@ -9,8 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -30,5 +30,5 @@ public class GuestBook {
     private LocalDateTime created;
 
     @OneToMany(mappedBy = "guestBookCmtIdx", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Set<Reply> replies = new HashSet<>();
+    private List<Reply> replies = new ArrayList<>();
 }

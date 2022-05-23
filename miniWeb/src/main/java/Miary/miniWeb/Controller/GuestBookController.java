@@ -1,11 +1,13 @@
 package Miary.miniWeb.Controller;
 
 import Miary.miniWeb.MemberManager.Member;
+import Miary.miniWeb.MemberManager.profile.Profile;
 import Miary.miniWeb.guestbook.GuestBook;
 import Miary.miniWeb.guestbook.GuestBookForm;
 import Miary.miniWeb.guestbook.reply.Reply;
 import Miary.miniWeb.guestbook.reply.ReplyForm;
 import Miary.miniWeb.service.GuestBookService;
+import Miary.miniWeb.service.ProfileService;
 import Miary.miniWeb.service.ReplyService;
 import Miary.miniWeb.session.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,10 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,11 +33,16 @@ import java.util.List;
 public class GuestBookController {
     private final GuestBookService guestBookService;
     private final ReplyService replyService;
+    private final ProfileService profileService;
 
     @GetMapping("/guestBook")
     public String commentList(@RequestParam(required = false, defaultValue = "0", value = "page") int page, Model model) {
         Page<GuestBook> listPage = guestBookService.pageGuestBookList(page);
         int totalPage = listPage.getTotalPages();
+
+//        listPage.getContent().get(1).getReplies().get(1).getReplyMember().getProfile().getNickname();
+//        listPage.getContent().get(1).getReplies().get(1).getReplyContent();
+//        listPage.getContent().get(1).getGuestBookMember().getProfile().getNickname();
 
         model.addAttribute("pageList", listPage.getContent());
         model.addAttribute("totalPage", totalPage);
@@ -71,9 +81,11 @@ public class GuestBookController {
         reply.setGuestBookCmtIdx(guestBook);
 
         replyService.saveReply(reply);
-        model.addAttribute("replyInfo", reply);
 
-        return "reply/info";
+        List<Reply> replies = replyService.findReplyList(guestBook);
+        model.addAttribute("replyInfo", replies);
+
+        return "redirect:/guestBook";
 
     }
 

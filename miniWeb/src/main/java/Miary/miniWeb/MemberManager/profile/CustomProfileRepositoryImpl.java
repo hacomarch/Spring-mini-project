@@ -21,4 +21,5 @@ public class CustomProfileRepositoryImpl implements CustomProfileRepository{
     public Profile findOne(Long profileIdx) {
         return em.find(Profile.class, profileIdx);
     }
+
 }

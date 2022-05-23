@@ -7,4 +7,5 @@ public interface CustomProfileRepository {
     public List<Profile> findByMemberId(Long memberIdx);
 
     public Profile findOne(Long profileIdx);
+
 }

@@ -4,31 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous">
-        function sessionCheck(){
-            var sessionUserName = '';
-            $.ajax({
-                type : 'POST',
-                datatype : 'json',
-                url : 'memberSessionCheck',
-                async : false,
-                success : function(result){
-                    sessionUserName = result;
-                },
-                error : function(xhr, status, error){
-                    alert('ajax error');
-                }
-            });
-            if(sessionUserName == ''){
-                var reLogin = confirm('확인 시 로그인 창으로 이동합니다.' + '\n' + '취소 시 현재 창이 유지됩니다.');
-                if(reLogin){
-                    location.href = 'loginForm';
-                    return;
-                }
-            }else{ return; }
-        }
+<!--    <script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous">-->
+<!--        function sessionCheck(){-->
+<!--            var sessionUserName = '';-->
+<!--            $.ajax({-->
+<!--                type : 'POST',-->
+<!--                datatype : 'json',-->
+<!--                url : 'memberSessionCheck',-->
+<!--                async : false,-->
+<!--                success : function(result){-->
+<!--                    sessionUserName = result;-->
+<!--                },-->
+<!--                error : function(xhr, status, error){-->
+<!--                    alert('ajax error');-->
+<!--                }-->
+<!--            });-->
+<!--            if(sessionUserName == ''){-->
+<!--                var reLogin = confirm('확인 시 로그인 창으로 이동합니다.' + '\n' + '취소 시 현재 창이 유지됩니다.');-->
+<!--                if(reLogin){-->
+<!--                    location.href = 'loginForm';-->
+<!--                    return;-->
+<!--                }-->
+<!--            }else{ return; }-->
+<!--        }-->
 
-    </script>
+<!--    </script>-->
+
+    <style>
+        .field-error{
+            color : red;
+        }
+    </style>
 
 </head>
 <body>

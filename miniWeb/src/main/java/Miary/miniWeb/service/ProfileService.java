@@ -23,12 +23,19 @@ public class ProfileService {
         return profile.getProfileIdx();
     }
 
+    public List<Profile> findAll(){
+        return profileRepository.findAll();
+    }
     public List<Profile> findByMemberId(Long memberIdx) {
         return profileRepository.findByMemberId(memberIdx);
     }
 
     public Profile findByProfileId(Long profileIdx) {
         return profileRepository.findOne(profileIdx);
+    }
+
+    public List<Profile> findByNickname(String nickname) {
+        return profileRepository.findByNickname(nickname);
     }
 
 }

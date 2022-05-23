@@ -11,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,17 +30,30 @@ public class ProfileController {
 
     @GetMapping("/profile/new")
     public String profileForm(Model model) {
+        List<Profile> profiles = profileService.findAll();
         model.addAttribute("profileForm", new ProfileForm());
+        model.addAttribute("profileList", profiles);
         return "profile/write";
     }
 
     @PostMapping("/profile/new")
-    public String profileWrite(@Valid @ModelAttribute("profileForm") ProfileForm profileForm, HttpServletRequest request, Model model) throws IOException {
+    public String profileWrite(@Valid @ModelAttribute("profileForm") ProfileForm profileForm, HttpServletRequest request, Model model, BindingResult result) throws IOException {
+        if (result.hasErrors()) {
+            return "profile/write";
+        }
         HttpSession session = request.getSession(false);
 
+        List<Profile> byNickname = profileService.findByNickname(profileForm.getNickname());
+        //닉네임 중복 확인
+       if (!byNickname.isEmpty()) {
+            result.reject("validateNickname", "닉네임이 중복됩니다.");
+            return "profile/write";
+        }
+
         Profile profile = new Profile();
-        //profile.setProfileIdx(profileForm.getProfileIdx());
+        profile.setProfileIdx(profileForm.getProfileIdx());
         profile.setNickname(profileForm.getNickname());
+
         profile.setAboutMe(profileForm.getAboutMe());
         profile.setMemberProfile((Member) session.getAttribute(SessionConst.LOGIN_MEMBER));
 
@@ -50,6 +61,7 @@ public class ProfileController {
         profile.setProfileImage(profileImages);
 
         profileService.saveProfile(profile);
+
 
         return "redirect:/";
     }
@@ -63,6 +75,7 @@ public class ProfileController {
         form.setNickname(profile.getNickname());
         form.setAboutMe(profile.getAboutMe());
         form.setMember(profile.getMemberProfile());
+
         profileImageService.deleteProfileImage(profile);
 
         model.addAttribute("profileUpdateForm", form);
