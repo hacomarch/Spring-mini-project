@@ -3,6 +3,9 @@ package Miary.miniWeb.Controller;
 
 import Miary.miniWeb.MemberManager.Member;
 import Miary.miniWeb.MemberManager.MemberForm;
+import Miary.miniWeb.MemberManager.profile.Profile;
+import Miary.miniWeb.MemberManager.profile.ProfileForm;
+import Miary.miniWeb.MemberManager.profile.profileImage.ProfileImage;
 import Miary.miniWeb.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +16,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,6 +32,8 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final ProfileService profileService;
+    private final ProfileImageService profileImageService;
 
     @GetMapping(value = "/members/new")
     public String createForm(Model model) {
@@ -45,6 +52,8 @@ public class MemberController {
         member.setAge(form.getAge());
         member.setTel(form.getTel());
         member.setJoindate(LocalDateTime.now());
+
+        member.setProfile(form.getProfile());
 
         memberService.join(member);
 
@@ -78,6 +87,7 @@ public class MemberController {
         member.setPassword(memberEditForm.getPassword());
         member.setTel(memberEditForm.getTel());
         member.setJoindate(memberEditForm.getJoindate());
+        member.setProfile(memberEditForm.getProfile());
 
         memberService.update(member);
 

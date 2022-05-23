@@ -5,6 +5,7 @@ import Miary.miniWeb.diary.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -34,7 +35,6 @@ public class Diary implements Comparable<Diary>{
 
     @OneToMany(mappedBy = "diary", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Image> imageFiles = new ArrayList<>();
-
 
     @Transactional
     public void setMember(Member member) {

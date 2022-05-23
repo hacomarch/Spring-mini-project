@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -101,6 +103,7 @@ public class DiaryController {
     @GetMapping("/diary/{diaryIdx}/edit")
     public String updateDiaryForm(@PathVariable("diaryIdx") Long diaryIdx, Model model) {
         Diary diary = diaryService.findDiaryById(diaryIdx);
+        List<Image> byDiaryIdx = imageService.findByDiaryIdx(diary);
 
         DiaryForm diaryEditForm = new DiaryForm();
         diaryEditForm.setDiaryIdx(diary.getDiaryIdx());
@@ -109,9 +112,9 @@ public class DiaryController {
         diaryEditForm.setContent(diary.getContent());
         diaryEditForm.setCreated(diary.getCreated());
         diaryEditForm.setTitle(diary.getTitle());
-        imageService.deleteDiaryImage(diary);
 
         model.addAttribute("diaryInfo", diaryEditForm);
+        model.addAttribute("imageFiles", byDiaryIdx);
         return "diary/updateDiaryForm";
     }
 
@@ -127,10 +130,15 @@ public class DiaryController {
         diary.setTitle(form.getTitle());
         diary.setCreated(form.getCreated());
 
-        List<Image> imageFiles = imageService.storeFiles(form.getImageFiles(), diary);
-        diary.setImageFiles(imageFiles);
+        List<Image> imageFiles = new ArrayList<>();
 
-        diaryService.saveDiary(diary);
+        if(form.getImageFiles().isEmpty()) {//사진 수정 할 때
+            imageService.deleteDiaryImage(diary);
+            imageFiles = imageService.storeFiles(form.getImageFiles(), diary);
+            diary.setImageFiles(imageFiles);
+        }
+
+        diaryService.updateDiary(diary);
 
         model.addAttribute("imageFiles", imageFiles);
 

@@ -18,4 +18,11 @@ public class ProfileForm {
     private List<MultipartFile> profileImage;
 
     private Member member;
+
+    public ProfileForm(String nickname, String aboutMe) {
+        this.nickname = nickname;
+        this.aboutMe = aboutMe;
+    }
+
+    public ProfileForm(){}
 }

@@ -28,5 +28,4 @@ public class DiaryForm {
 
     private List<MultipartFile> imageFiles;
 
-
 }

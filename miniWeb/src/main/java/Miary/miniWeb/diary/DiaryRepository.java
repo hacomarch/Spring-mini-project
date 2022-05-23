@@ -8,4 +8,5 @@ import java.util.List;
 public interface DiaryRepository extends JpaRepository<Diary, String>, CustomDiaryRepository {
     List<Diary> findByTitleContaining(String keyword);
     Page<Diary> findByMember(Member member, Pageable pageable);
+
 }

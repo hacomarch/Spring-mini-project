@@ -36,7 +36,7 @@ public class DiaryService {
     //글 수정
     @Transactional
     public Long updateDiary(Diary diary){
-        diaryRepository.save(diary);
+        diaryRepository.saveAndFlush(diary);
         return diary.getDiaryIdx();
     }
 

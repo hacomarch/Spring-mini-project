@@ -1,5 +1,6 @@
 package Miary.miniWeb.MemberManager;
 
+import Miary.miniWeb.MemberManager.profile.Profile;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,10 +23,11 @@ public class MemberForm {
     @NotEmpty(message="비밀번호 필수")
     private String password;
 
-    private String aboutMe;
     private String tel;
     private int age;
 
     private LocalDateTime joindate;
+
+    private Profile profile;
 
 }

@@ -1,6 +1,7 @@
 package Miary.miniWeb.service;
 
 import Miary.miniWeb.MemberManager.profile.Profile;
+import Miary.miniWeb.MemberManager.profile.ProfileRepository;
 import Miary.miniWeb.MemberManager.profile.profileImage.ProfileImage;
 import Miary.miniWeb.MemberManager.profile.profileImage.ProfileImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class ProfileImageService {
 
     @Autowired
     ProfileImageRepository profileImageRepository;
+    @Autowired
+    ProfileRepository profileRepository;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -68,6 +71,7 @@ public class ProfileImageService {
         ProfileImage profileImage = new ProfileImage();
         profileImage.setUploadFileName(originalFilename);
         profileImage.setStoreFileName(storeFileName);
+        profileRepository.save(profile);
         profileImage.setProfileImage(profile);
 
         profileImageRepository.save(profileImage);

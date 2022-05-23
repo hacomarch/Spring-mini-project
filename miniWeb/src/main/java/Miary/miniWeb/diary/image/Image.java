@@ -20,7 +20,7 @@ public class Image {
     private String uploadFileName;
     private String storeFileName;
 
-    @ManyToOne(targetEntity = Diary.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Diary.class, fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "diaryIdx")
     private Diary diary;
 

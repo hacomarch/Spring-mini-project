@@ -5,7 +5,7 @@
     <title>Update Profile</title>
 </head>
 <body>
-<form th:action="@{/profile/{profileIdx}/edit(profileIdx=*{profileIdx})}" th:object="${profileUpdateForm}" method="post" enctype="multipart/form-data">
+<form th:action="@{/profile/{profileIdx}/edit(profileIdx=*{profileIdx})}" th:object="${profileForm}" method="post" enctype="multipart/form-data">
     <input type="hidden" th:filed="*{profileIdx}"/>
     <div>
         <label th:for="nickname">닉네임 : </label>
@@ -17,6 +17,7 @@
         <textarea th:field="*{aboutMe}" class="form-control" required></textarea>
     </div>
     <div>
+        <img th:each="image : ${profileImage}" th:src="|/images/${image.getStoreFileName()}|" width="100" height="100"/>
         프사 변경 : <input type="file" multiple="multiple" th:field="*{profileImage}">
         <br>
         <button th:onclick="|location.href='@{/{profileIdx}/profileImageDelete(profileIdx=*{profileIdx})}'|" type="button">프사 삭제</button>

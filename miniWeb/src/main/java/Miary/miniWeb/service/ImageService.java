@@ -1,6 +1,7 @@
 package Miary.miniWeb.service;
 
 import Miary.miniWeb.diary.Diary;
+import Miary.miniWeb.diary.DiaryRepository;
 import Miary.miniWeb.diary.image.Image;
 import Miary.miniWeb.diary.image.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,10 @@ public class ImageService {
 
     @Autowired
     ImageRepository imageRepository;
+    @Autowired
+    DiaryRepository diaryRepository;
+    @Autowired
+    DiaryService diaryService;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -38,7 +43,7 @@ public class ImageService {
         if (!image.isEmpty()) {
             for (int i = 0; i < image.size(); i++) {
                 imageRepository.delete(image.get(i));
-                image.remove(i);
+                //image.remove(i);
             }
         }
         return diary.getDiaryIdx();
@@ -48,6 +53,21 @@ public class ImageService {
         return fileDir + filename;
     }
 
+    @Transactional
+    @Modifying
+    public List<Image> update(List<MultipartFile> multipartFiles, Diary diary) throws IOException {
+        List<Image> diary1 = imageRepository.findDiary(diary);
+
+        for (MultipartFile multipartFile : multipartFiles) {
+            if (!multipartFile.isEmpty()) {
+                diary1.add(storeFile(multipartFile, diary));
+            }
+        }
+        return diary1;
+    }
+
+    @Transactional
+    @Modifying
     public List<Image> storeFiles(List<MultipartFile> multipartFiles, Diary diary) throws IOException {
         List<Image> storeFileResult = new ArrayList<>();
 
@@ -59,6 +79,8 @@ public class ImageService {
         return storeFileResult;
     }
 
+    @Transactional
+    @Modifying
     private Image storeFile(MultipartFile multipartFile, Diary diary) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
@@ -68,13 +90,13 @@ public class ImageService {
         String storeFileName = createStoreFileName(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
 
-
         Image image = new Image();
         image.setUploadFileName(originalFilename);
         image.setStoreFileName(storeFileName);
+        diaryRepository.saveAndFlush(diary);
         image.setDiary(diary);
 
-        imageRepository.save(image);
+        imageRepository.saveAndFlush(image);
 
         return image;
     }

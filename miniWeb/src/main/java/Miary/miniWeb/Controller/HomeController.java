@@ -62,6 +62,10 @@ public class HomeController{
         if (!profileList.isEmpty()) {
             profile = profileList.get(profileList.size() - 1);
             profileImage = profileImageService.findProfile(profile);
+        }else{
+            profile.setNickname("닉네임을 입력하세요.");
+            profile.setAboutMe("자기소개를 입력하세요.");
+            profileService.saveProfile(profile);
         }
 
         model.addAttribute("imageFiles", imageFiles);

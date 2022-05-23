@@ -34,8 +34,9 @@ public class ProfileService {
         return profileRepository.findOne(profileIdx);
     }
 
-    public List<Profile> findByNickname(String nickname) {
-        return profileRepository.findByNickname(nickname);
+    @Transactional
+    public Profile findByNickname(String nickname) {
+        return findAll().stream().filter(m -> m.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
 }

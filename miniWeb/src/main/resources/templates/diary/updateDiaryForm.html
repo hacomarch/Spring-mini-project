@@ -19,6 +19,7 @@
             <textarea th:field="*{content}" rows="10" cols="30" class="form-control" required></textarea>
         </div>
         <div>
+            <img th:each="imageFile : ${imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
             <input type="file" multiple="multiple" th:field="*{imageFiles}">
         </div>
 
