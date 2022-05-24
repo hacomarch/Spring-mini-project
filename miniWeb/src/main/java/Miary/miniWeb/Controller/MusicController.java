@@ -45,7 +45,7 @@ public class MusicController{
     ObjectMapper mapper = new ObjectMapper();
 
     @RequestMapping(value="/diary/{diaryIdx}/music")
-    public ModelAndView music(@PathVariable("diaryIdx") Long diaryIdx, HttpServletResponse response) throws JsonProcessingException {
+    public ModelAndView music(@PathVariable("diaryIdx") Long diaryIdx) throws JsonProcessingException {
         ModelAndView modelAndView = new ModelAndView();
 
         Diary diary = diaryService.findDiaryById(diaryIdx);

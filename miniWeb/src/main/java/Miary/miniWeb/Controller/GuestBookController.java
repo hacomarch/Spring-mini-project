@@ -22,10 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,15 +37,11 @@ public class GuestBookController {
         Page<GuestBook> listPage = guestBookService.pageGuestBookList(page);
         int totalPage = listPage.getTotalPages();
 
-//        listPage.getContent().get(1).getReplies().get(1).getReplyMember().getProfile().getNickname();
-//        listPage.getContent().get(1).getReplies().get(1).getReplyContent();
-//        listPage.getContent().get(1).getGuestBookMember().getProfile().getNickname();
 
         model.addAttribute("pageList", listPage.getContent());
         model.addAttribute("totalPage", totalPage);
 
         model.addAttribute("guestBookForm", new GuestBookForm());
-        model.addAttribute("replyForm", new ReplyForm());
 
         return "guestBook/list";
     }
@@ -68,6 +61,21 @@ public class GuestBookController {
         return "redirect:/guestBook";
     }
 
+    @GetMapping("/{guestBookIdx}/reply/new")
+    public String replyWriteForm(@PathVariable("guestBookIdx") Long guestBookIdx, Model model) {
+
+        model.addAttribute("replyForm", new ReplyForm());
+
+        List<Reply> replyList = replyService.findReplyList(guestBookIdx);
+        Collections.sort(replyList, Collections.reverseOrder());
+        model.addAttribute("replyInfo", replyList);
+
+        GuestBook byCommentIdx = guestBookService.findByCommentIdx(guestBookIdx);
+        model.addAttribute("content", byCommentIdx);
+
+        return "reply/write";
+    }
+
     @PostMapping("/{guestBookIdx}/reply/new")
     public String replyWrite(@PathVariable("guestBookIdx") Long guestBookIdx, @Valid @ModelAttribute("replyForm") ReplyForm replyForm, HttpServletRequest request, Model model) throws IOException {
         HttpSession session = request.getSession(false);
@@ -82,10 +90,14 @@ public class GuestBookController {
 
         replyService.saveReply(reply);
 
-        List<Reply> replies = replyService.findReplyList(guestBook);
+        List<Reply> replies = replyService.findReplyList(guestBookIdx);
+        //최신순 댓글
+        Collections.sort(replies, Collections.reverseOrder());
         model.addAttribute("replyInfo", replies);
 
-        return "redirect:/guestBook";
+        GuestBook byCommentIdx = guestBookService.findByCommentIdx(guestBookIdx);
+        model.addAttribute("content", byCommentIdx);
+        return "reply/write";
 
     }
 

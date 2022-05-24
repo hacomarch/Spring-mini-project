@@ -2,17 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Reply Write</title>
+    <title>GuestBook</title>
+
+
 </head>
 <body>
+<div>
+    작성자 : <span th:text="${content.guestBookMember.getProfile().getNickname()}"></span><br>
+    내용 : <span th:text="${content.comments}"></span>
+</div>
+<br>
 <form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBookIdx})}" th:object="${replyForm}" method="post">
     <input type="hidden" th:field="*{replyIdx}"/>
     <div>
-        내용 : <input type="text" th:field="*{replyContent}" class="form-control" required>
-        <button type="submit">등록</button>
+        <input type="text" th:field="*{replyContent}" class="form-control" required>
+        <button type="submit">댓글</button>
     </div>
-
 </form>
+<div th:each="reply : ${replyInfo}">
+    작성자 : <span th:text="${reply.replyMember.getProfile().getNickname()}"></span>
+    | 댓글 내용 : <span th:text="${reply.replyContent}"></span>
+</div>
+
+
+
+<button th:onclick="|location.href='@{/guestBook}'|" type="button">커뮤니티로</button>
 
 </body>
 </html>

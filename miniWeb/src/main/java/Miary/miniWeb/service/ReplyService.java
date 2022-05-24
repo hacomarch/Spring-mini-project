@@ -1,6 +1,7 @@
 package Miary.miniWeb.service;
 
 import Miary.miniWeb.guestbook.GuestBook;
+import Miary.miniWeb.guestbook.GuestBookRepository;
 import Miary.miniWeb.guestbook.reply.Reply;
 import Miary.miniWeb.guestbook.reply.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ public class ReplyService {
 
     @Autowired
     ReplyRepository replyRepository;
+    @Autowired
+    GuestBookRepository guestBookRepository;
 
     //댓글 저장
     @Transactional
@@ -34,8 +37,9 @@ public class ReplyService {
         return reply.getReplyIdx();
     }
 
-    public List<Reply> findReplyList(GuestBook guestBook){
-        return replyRepository.findByGuestBookCmtIdx(guestBook);
+    public List<Reply> findReplyList(Long guestBookIdx){
+        GuestBook byCommentIdx = guestBookRepository.findByCommentIdx(guestBookIdx);
+        return replyRepository.findByGuestBookCmtIdx(byCommentIdx);
     }
 
 

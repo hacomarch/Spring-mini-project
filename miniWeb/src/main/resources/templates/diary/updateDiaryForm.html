@@ -20,7 +20,7 @@
         </div>
         <div>
             <img th:each="imageFile : ${imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
-            <input type="file" multiple="multiple" th:field="*{imageFiles}">
+            <input type="file" multiple="multiple" th:field="*{imageFiles}" required>
         </div>
 
         <button type="submit">등록</button>

@@ -29,6 +29,6 @@ public class GuestBook {
     @CreatedDate
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "guestBookCmtIdx", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "guestBookCmtIdx", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
 }

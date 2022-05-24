@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @Table(name="reply")
-public class Reply {
+public class Reply implements Comparable<Reply>{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyIdx;
@@ -25,4 +25,8 @@ public class Reply {
     @JoinColumn(name = "memberIdx")
     private Member replyMember;
 
+    @Override
+    public int compareTo(Reply reply) {
+        return this.replyIdx.compareTo(reply.replyIdx);
+    }
 }

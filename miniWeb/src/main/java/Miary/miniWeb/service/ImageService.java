@@ -37,6 +37,10 @@ public class ImageService {
         return imageRepository.findDiary(diary);
     }
 
+    public List<Image> findAll(){
+        return imageRepository.findAll();
+    }
+
     @Transactional
     public Long deleteDiaryImage(Diary diary) {
         List<Image> image = imageRepository.findDiary(diary);

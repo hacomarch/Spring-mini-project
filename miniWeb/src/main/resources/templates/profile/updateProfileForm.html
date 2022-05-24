@@ -18,7 +18,7 @@
     </div>
     <div>
         <img th:each="image : ${profileImage}" th:src="|/images/${image.getStoreFileName()}|" width="100" height="100"/>
-        프사 변경 : <input type="file" multiple="multiple" th:field="*{profileImage}">
+        프사 변경 : <input type="file" multiple="multiple" th:field="*{profileImage}" required>
         <br>
         <button th:onclick="|location.href='@{/{profileIdx}/profileImageDelete(profileIdx=*{profileIdx})}'|" type="button">프사 삭제</button>
     </div>

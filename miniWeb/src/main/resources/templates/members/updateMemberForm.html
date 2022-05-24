@@ -1,5 +1,15 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script th:inline="javascript">
+        function reallyDelete(url){
+            var returnValue = confirm('정말로 탈퇴하시겠습니까?');
+
+            if(returnValue == true){ location.href=url; }
+            else { location.href="http://localhost:8080/" }
+        }
+    </script>
+</head>
 
 <body>
 <div class="container">
@@ -36,12 +46,11 @@
 
         <div>
             <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
-            <button th:onclick="|location.href='@{/{memberIdx}/destroy(memberIdx=*{memberIdx})}'|" type="button">
-                회원 탈퇴
-            </button>
+            <button th:onclick="|javascript:reallyDelete('@{/{memberIdx}/destroy(memberIdx=*{memberIdx})}')|">회원 탈퇴</button>
         </div>
-
     </form>
-</div> <!-- /container -->
+
+
+</div>
 </body>
 </html>

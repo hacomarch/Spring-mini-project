@@ -132,11 +132,9 @@ public class DiaryController {
 
         List<Image> imageFiles = new ArrayList<>();
 
-        if(form.getImageFiles().isEmpty()) {//사진 수정 할 때
-            imageService.deleteDiaryImage(diary);
-            imageFiles = imageService.storeFiles(form.getImageFiles(), diary);
-            diary.setImageFiles(imageFiles);
-        }
+        imageService.deleteDiaryImage(diary);
+        imageFiles = imageService.storeFiles(form.getImageFiles(), diary);
+        diary.setImageFiles(imageFiles);
 
         diaryService.updateDiary(diary);
 

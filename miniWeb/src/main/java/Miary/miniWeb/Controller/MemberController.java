@@ -6,17 +6,17 @@ import Miary.miniWeb.MemberManager.MemberForm;
 import Miary.miniWeb.MemberManager.profile.Profile;
 import Miary.miniWeb.MemberManager.profile.ProfileForm;
 import Miary.miniWeb.MemberManager.profile.profileImage.ProfileImage;
+import Miary.miniWeb.diary.message.Message;
 import Miary.miniWeb.service.*;
+import Miary.miniWeb.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -112,11 +112,28 @@ public class MemberController {
     }
 
     @GetMapping("/{memberIdx}/destroy")
-    public String deleteMember(@PathVariable("memberIdx") Long memberIdx){
+    public String deleteMember(@PathVariable("memberIdx") Long memberIdx,HttpServletRequest request, Model model){
+        HttpSession session = request.getSession(false);
+
         Member member = memberService.findMemberIdx(memberIdx);
+        session.removeAttribute(SessionConst.LOGIN_MEMBER);
         memberService.destroy(member);
         return "home";
     }
 
+//    @RequestMapping("/{memberIdx}/destroy")
+//    public ModelAndView deleteMember(@PathVariable("memberIdx") Long memberIdx,HttpServletRequest request){
+//        ModelAndView modelAndView = new ModelAndView();
+//
+//        HttpSession session = request.getSession(false);
+//
+//        Member member = memberService.findMemberIdx(memberIdx);
+//        session.removeAttribute(SessionConst.LOGIN_MEMBER);
+//        memberService.destroy(member);
+//
+//        modelAndView.setViewName("members/deleteMemberMessage");
+//        modelAndView.addObject("data", )
+//
+//    }
 
 }

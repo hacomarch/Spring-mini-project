@@ -29,7 +29,7 @@
 </head>
 <body>
 
-<form th:action="@{guestBook/new}" th:object="${guestBookForm}" method="post">
+<form th:action="@{/guestBook/new}" th:object="${guestBookForm}" method="post">
     <textarea th:field=*{comments} cols="50" rows="10" required></textarea>
     <button type="submit">등록</button>
 </form>
@@ -45,24 +45,15 @@
 
     <div>
         내용 : <span th:text="${guestBook.comments}"></span>
+        <br>
+        <button th:onclick="|location.href='@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}'|" type="submit">댓글</button>
 
-        <form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}" th:object="${replyForm}" method="post">
-            <input type="hidden" th:field="*{replyIdx}"/>
-            <div id="replyWrite">
-                <input type="text" th:field="*{replyContent}" class="form-control" required>
-                <button type="submit">댓글</button>
-            </div>
-        </form>
     </div>
 
-<!--    <div th:each="reply : ${guestBook.getReplies()}">-->
-<!--        작성자 : <span th:text="${reply.replyMember.getProfile().getNickname()}"></span>-->
-<!--        | 댓글 내용 : <span th:text="${reply.replyContent}"></span>-->
-<!--    </div>-->
     <hr>
 </div>
 
-<button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
+<button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">홈으로</button>
 
 <div>
     <ul>

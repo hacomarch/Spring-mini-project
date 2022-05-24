@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 @Entity
 @Table(name="image")
-public class Image {
+public class Image implements Comparable<Image>{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +30,8 @@ public class Image {
     }
 
 
+    @Override
+    public int compareTo(Image image) {
+        return this.id.compareTo(image.id);
+    }
 }
