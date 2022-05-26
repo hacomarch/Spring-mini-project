@@ -1,50 +1,199 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Write Info</title>
-
+    <title>THIS IS MIARY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
-<div th:each="diary : ${diaryInfo}">
-    <div>
-        <div>
-            <span>제목 : </span>
-            <span th:text="${diary.title}"></span>
-            | 날짜 : <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
-            <span>
-                <button th:onclick="|location.href='@{/diary/{diaryIdx}/edit(diaryIdx=${diary.diaryIdx})}'|" type="button">수정</button>
-            </span>
-            <span>
-                <button th:onclick="|location.href='@{/diary/{diaryIdx}/delete(diaryIdx=${diary.diaryIdx})}'|" type="button">삭제</button>
-            </span>
-        </div>
-        <hr>
-        <div>
-            <span th:text="${diary.content}"></span>
-        </div>
-    </div>
+<div class = "backcover">
+    <div class = "topcover">
 
-    <div>
-        <img th:each="imageFile : ${imageFiles}" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
-    </div>
+        <div class = "title"><h2>MIARY</h2></div>
 
-    <br>
+        <button class="menu" th:onclick="|location.href='@{/updateLoginHome}'|">홈</button>
+        <button class="menu" th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|">다이어리</button>
+        <button class="menu" th:onclick="|location.href='@{/guestBook}'|">방명록</button>
+        <button class="menu" th:onclick="|location.href='@{/members/{memberIdx}/edit (memberIdx=${memberIdx})}'|">내 정보</button>
 
-    <div>
-        <form th:action="@{/diary/{diaryIdx}/music(diaryIdx=${diary.diaryIdx})}">
-            <button type="submit">노래 추천</button>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class = "logout">로그아웃</button>
         </form>
+
+        <div th:each="diary : ${diaryInfo}" class="container" >
+            <div class="row">
+                <div>
+                    <div>
+
+                        <span th:text="${diary.title}" style="font-size:20px; font-weight:bold;"></span>
+                        <span class = "date" th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
+                    </div>
+                    <hr>
+                    <div class = content>
+                        <span th:text="${diary.content}" style="font-size:18px;"></span>
+                    </div>
+                    <div class = image>
+                        <img th:each="imageFile : ${imageFiles}" th:if="${imageFileStat.count} <= 1" th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>
+                    </div>
+
+                    <hr>
+                </div>
+                <div class = song>
+                    <form th:action="@{/diary/{diaryIdx}/music(diaryIdx=${diary.diaryIdx})}">
+                        <button type = "submit" class="singsong">
+                            <span data-text="노래추천">노래추천</span>
+                        </button>
+                    </form>
+                </div>
+
+
+                <button type = "button"  th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|" style="font-family: 'Gaegu', cursive; font-size:15px;">목록</button>
+                <button type = "button"  th:onclick="|location.href='@{/diary/{diaryIdx}/delete(diaryIdx=${diary.diaryIdx})}'|" style = "font-family: 'Gaegu', cursive; position:absolute; font-size:15px; left:650px;">삭제</button>
+                <button type = "button"  th:onclick="|location.href='@{/diary/{diaryIdx}/edit(diaryIdx=${diary.diaryIdx})}'|" style = "font-family: 'Gaegu', cursive; position:absolute; font-size:15px; left:600px;" >수정</button>
+            </div>
+        </div>
     </div>
-
-    <br>
-
-    <span>
-        <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인으로</button>
-    </span>
-
-
-
 </div>
 </body>
 </html>
+
+<style>
+
+body{
+    background-color: rgb(224,224,224);
+    background-size: 100%;
+    font-family: 'Gaegu', cursive;
+}
+.singsong{
+  font-family: 'Gaegu', cursive;
+  background:rgb(167,208,236);
+  color:#fff;
+  border:none;
+  position:relative;
+  height:30px;
+  font-size:1.0em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+  border-radius: 40px;
+
+}
+.singsong:hover{
+  background:#fff;
+  color:rgb(167,208,236);
+}
+.singsong:before,.singsong:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: rgb(167,208,236);
+  transition:400ms ease all;
+}
+.singsong:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.singsong:hover:before,.singsong:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+.backcover{
+    background-color: white;
+    width: 1200px;
+    height: 700px;
+    margin: 75px auto;
+}
+
+.topcover{
+    background-color :rgb(41, 128, 185);
+    width : 1200px;
+    height : 56px;
+}
+
+.title{
+    color: white;
+    float: left;
+    width : 150px;
+    text-align: center;
+    font-size:25px;
+    margin-top:-25px;
+}
+
+.menu{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+
+    float:left;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+
+    border : 0;
+    outline: 0;
+
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    font-weight:bold;
+
+}
+.menu:hover{
+    box-shadow:7px -7px 5px rgba(0,0,0,0.5);
+    font-size:25px;
+}
+
+.logout{
+    cursor:pointer;
+    float: right;
+    margin-top: 30px;
+    margin-right : 10px;
+
+    background-color: rgb(41, 128, 185);
+    color : white;
+    border : 0;
+    outline: 0;
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    margin-top:15px;
+
+}
+
+.container{
+    width : 500px;
+    height : 250px;
+
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-left: -250px;
+    margin-top : -125px;
+}
+.content{
+    position:absolute;
+    left : 330px;
+}
+.row{
+    position:absolute;
+    top:-100px;
+    width:700px;
+    right : -100px;
+}
+.date{
+    position:absolute;
+    left:600px;
+}
+.song{
+    position:absolute;
+    left:600px;
+    bottom:50px;
+}
+</style>

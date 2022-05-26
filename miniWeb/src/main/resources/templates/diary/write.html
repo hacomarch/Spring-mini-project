@@ -1,26 +1,156 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Diary Write</title>
+    <title>THIS IS MIARY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class = "backcover">
+    <div class = "topcover">
 
-<form th:action="@{/diary/new}" th:object="${postForm}" method="post" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{diaryIdx}"/>
-    <div>
-        <label th:for="title">제목</label>
-        <input type="text" th:field="*{title}" class="form-control" required>
-    </div>
-    <br>
-    <div>
-        <textarea th:field="*{content}" rows="10" cols="30" class="form-control" required></textarea>
-    </div>
-    <div>
-        <input type="file" multiple="multiple" th:field="*{imageFiles}">
-    </div>
+        <div class = "title"><h2>MIARY</h2></div>
 
-    <button type="submit">등록</button>
-</form>
+        <button class="menu" th:onclick="|location.href='@{/updateLoginHome}'|">홈</button>
+        <button class="menu" th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|">다이어리</button>
+        <button class="menu" th:onclick="|location.href='@{/guestBook}'|">방명록</button>
+        <button class="menu" th:onclick="|location.href='@{/members/{memberIdx}/edit (memberIdx=${memberIdx})}'|">내 정보</button>
+
+        <form th:action="@{/logout}" method="post">
+            <button onclick="location.href='home.html'" type="submit" class = "logout">
+                로그아웃
+            </button>
+        </form>
+
+        <article>
+            <div class="container" role="main">
+                <form th:action="@{/diary/new}" th:object="${postForm}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" th:field="*{diaryIdx}"/>
+
+                    <div class="mb-3">
+                        <b>제목</b><br>
+                        <input type="text" th:field="*{title}" class="form-control1" name="content" size=50 required style = "font-family: 'Gaegu', cursive; font-size:20px; padding-left:7px; border-radius: 7px; border:solid 1px;">
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <textarea th:field="*{content}" class="form-control2" rows="20" cols = "80" name="content" id="content" required style = "font-family: 'Gaegu', cursive; font-size:18px; padding-top:8px; padding-left:15px; border-radius: 20px;"></textarea>
+                    </div>
+                    <div>
+                        <input type="file" multiple="multiple" th:field="*{imageFiles}" class="image_inputType_file" required style="position:absolute; left:20px; top:540px;">
+                    </div>
+
+                    <button type="submit" class="btn btn-sm btn-primary" style = "position:absolute; left:650px;top:540px;">저장</button>
+                </form>
+            </div>
+        </article>
+    </div>
+</div>
+</div>
 </body>
 </html>
+
+<style>
+
+body{
+    background-color: rgb(224,224,224);
+    background-size: 100%;
+    font-family: 'Gaegu', cursive;
+}
+
+.backcover{
+    background-color: white;
+    width: 1200px;
+    height: 700px;
+    margin: 75px auto;
+}
+
+.topcover{
+    background-color :rgb(41, 128, 185);
+    width : 1200px;
+    height : 56px;
+}
+
+.title{
+    color: white;
+    float: left;
+    width : 150px;
+    text-align: center;
+    font-size:25px;
+    margin-top:-25px;
+}
+
+.menu{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+
+    float:left;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+
+    border : 0;
+    outline: 0;
+
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    font-weight:bold;
+
+}
+.menu:hover{
+    box-shadow:7px -7px 5px rgba(0,0,0,0.5);
+    font-size:25px;
+}
+.form-control1:hover{
+    background-color:#E3F0F9;
+}
+.logout{
+    cursor:pointer;
+    float: right;
+    margin-top: 30px;
+    margin-right : 10px;
+
+    background-color: rgb(41, 128, 185);
+    color : white;
+    border : 0;
+    outline: 0;
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    margin-top:15px;
+
+}
+
+.container{
+    width : 1000px;
+    position:absolute;
+    top : 160px;
+    left : 500px;
+}
+.mb-3{
+    border-bottom: 10px;
+}
+
+.button{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+    border : 0;
+    outline: 0;
+
+    float:left;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.form-control2{
+    position:absolute;
+    left:-10px;
+}
+
+
+</style>

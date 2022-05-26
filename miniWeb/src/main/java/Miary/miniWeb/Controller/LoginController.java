@@ -59,7 +59,7 @@ public class LoginController {
         if (session != null) {
             session.invalidate(); //세션 제거
         }
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/updateLoginHome")

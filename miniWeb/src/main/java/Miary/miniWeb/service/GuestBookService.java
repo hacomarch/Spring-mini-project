@@ -48,6 +48,6 @@ public class GuestBookService {
 
     //페이징
     public Page<GuestBook> pageGuestBookList(int page) {
-        return guestBookRepository.findAll(PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "commentIdx")));
+        return guestBookRepository.findAll(PageRequest.of(page, 4, Sort.by(Sort.Direction.DESC, "commentIdx")));
     }
 }

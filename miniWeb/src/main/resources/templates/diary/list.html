@@ -2,66 +2,283 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Diary List</title>
-    <style>
-        ul{
-            margin-top: 20px;
-        }
-
-        ul li{
-            list-style-type: none;
-            display: inline-block;
-        }
-    </style>
+    <title>THIS IS MIARY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div>
+<div class = "backcover">
+    <div class = "topcover">
 
-        <button th:onclick="|location.href='@{/diary/new}'|" type="button">글쓰기</button>
-        <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
+        <div class = "title"><h2>MIARY</h2></div>
 
-        <table>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성일</th>
-            </tr>
+        <button class="menu" th:onclick="|location.href='@{/updateLoginHome}'|">홈</button>
+        <button class="menu" th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${member.memberIdx})}'|">다이어리</button>
+        <button class="menu" th:onclick="|location.href='@{/guestBook}'|">방명록</button>
+        <button class="menu" th:onclick="|location.href='@{/members/{memberIdx}/edit (memberIdx=${member.memberIdx})}'|">내 정보</button>
 
-            <tr th:each="diary : ${page}">
-                <td >
-                    <span th:text="${diaryStat.count}"></span>
-                </td>
-                <td>
-                    <a th:href="@{/diary/{diaryIdx}/Info(diaryIdx=${diary.diaryIdx})}">
-                        <span th:text="${diary.title}"></span>
-                    </a>
-                </td>
-
-                <td>
-                    <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
-                </td>
-            </tr>
-        </table>
-
-        <div>
-            <ul>
-                <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
-                    <a th:href="@{/{memberIdx}/diary(memberIdx=${memberIdx}, page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
-                </li>
-            </ul>
-        </div>
-
-        <br>
-
-
-        <form action="/diary/search" method="GET">
-            <input type="text" name="keyword" placeholder="검색어를 입력해주세요">
-            <button>검색</button>
+        <form th:action="@{/logout}" method="post">
+            <button onclick="location.href='home.html'" type="submit" class = "logout">
+                로그아웃
+            </button>
         </form>
+
+        <div class = "cover">
+
+            <div class = "searchclass">
+                <form action="/diary/search" method="GET">
+                    <input type="text" name="keyword" placeholder="검색" class="searchinput">
+                    <button type="submit" class="bt" style="font-family:'Gaegu', cursive; cursor:pointer;">검색</button>
+                </form>
+            </div>
+
+            <div class="main">
+
+                <div class="board">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td>번호</td>
+                            <td>제목</td>
+                            <td>작성일</td>
+                        </tr>
+                        </thead>
+
+                        <tbody class="tbody">
+                        <tr th:each="diary : ${page}">
+                            <td><span th:text="${diaryStat.count}" style="color:rgb(41, 128, 185);"></span></td>
+                            <td>
+                                <a th:href="@{/diary/{diaryIdx}/Info(diaryIdx=${diary.diaryIdx})}" style="text-decoration:none;">
+                                    <span th:text="${diary.title}" class="diaryTitle"></span>
+                                </a>
+                            </td>
+                            <td> <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class = "button2">
+                    <button th:onclick="|location.href='@{/diary/new}'|" type="button">글쓰기</button>
+                </div>
+
+                <div>
+                    <ul>
+                        <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
+                            <a th:href="@{/{memberIdx}/diary(memberIdx=${memberIdx}, page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
 
 
 
 
     </div>
+</div>
+
 </body>
 </html>
+
+<style>
+
+body{
+    background-color: rgb(224,224,224);
+    background-size: 100%;
+    font-family: 'Gaegu', cursive;
+}
+
+.backcover{
+    background-color: white;
+    width: 1200px ;
+    height: 700px ;
+    margin: 75px auto;
+}
+
+.topcover{
+    background-color :rgb(41, 128, 185);
+    width : 1200px;
+    height : 56px;
+}
+
+.title{
+    color: white;
+    float: left;
+    width : 150px;
+    text-align: center;
+    font-size:25px;
+    margin-top:-25px;
+}
+
+.menu{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+
+    float:left;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+
+    border : 0;
+    outline: 0;
+
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.menu:hover{
+    box-shadow:7px -7px 5px rgba(0,0,0,0.5);
+    font-size:25px;
+}
+
+.logout{
+    cursor:pointer;
+    float: right;
+    margin-top: 30px;
+    margin-right : 10px;
+
+    background-color: rgb(41, 128, 185);
+    color : white;
+    border : 0;
+    outline: 0;
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    margin-top:15px;
+
+}
+
+.cover{
+        width: 1200px;
+        height: 600px;
+        background-color: white;
+
+        position: absolute;
+        top:150px;
+    }
+
+.searchclass{
+    position: absolute;
+    left: 750px;
+
+    height:40px;
+    width: 400px;
+    right:340px;
+    border : 1px solid rgb(41, 128, 185);
+    background: #ffffff;
+
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+}
+.searchinput{
+
+    font-family: 'Gaegu', cursive;
+    font-size : 16px;
+    width : 325px;
+    padding: 10px;
+    border :0px;
+    outline:none;
+    float :left;
+}
+
+.main{
+    position: absolute;
+    top :80px; left: 100px;
+
+}
+
+.bt{
+    width: 50px;
+    height : 40px;
+    border:0px;
+    background:rgb(41, 128, 185) ;
+    outline : none;
+    float : right;
+    color : #ffffff;
+}
+
+
+.table{
+    font-size:20px;
+    border-collapse: collapse;
+    width :1000px;
+    border : 1px solid gray;
+    text-align:center;
+
+}
+thead td {
+    background: #E3F0F9;
+}
+td{
+    height: 40px;
+    border-bottom:1px solid black;
+}
+
+.diaryTitle{
+    color:black;
+}
+
+.diaryTitle:hover{
+    color:rgb(41, 128, 185);
+}
+
+.button2{
+    position: absolute;
+    top:450px;left:900px;
+}
+
+.button2 button{
+    cursor:pointer;
+    width : 100px; padding: 10px; border :0px;
+    font-family: 'Gaegu', cursive;
+    font-size:18px;
+    font-weight:bold;
+}
+
+ul{
+    position: absolute;
+    top:440px; left:350px;
+
+ }
+ul li{
+    list-style-type: none;
+    display: inline-block;
+
+}
+ul li a{
+    <!--    position : absolute;-->
+    display:flex;
+    text-align:center;
+    margin:0 5px;
+    padding:7px;
+    margin-right:5px;
+    border:1px solid #e6e6e6;
+
+    width:28px;
+
+    height:28px;
+
+    line-height:28px;
+
+    background-color:#fff;
+
+    font-size:13px;
+
+    color:black;
+
+    text-decoration:none;
+
+    font-weight:bold;
+}
+
+
+
+
+</style>

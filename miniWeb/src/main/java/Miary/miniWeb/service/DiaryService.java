@@ -69,7 +69,7 @@ public class DiaryService {
 
     public Page<Diary> pageList(Long memberIdx, int page){
         Member member = memberRepository.findOne(memberIdx);
-        return diaryRepository.findByMember(member, PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "diaryIdx")));
+        return diaryRepository.findByMember(member, PageRequest.of(page, 8, Sort.by(Sort.Direction.DESC, "diaryIdx")));
     }
 
 

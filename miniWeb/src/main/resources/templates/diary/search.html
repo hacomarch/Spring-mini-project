@@ -1,50 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Diary List Search</title>
-  <style>
-        ul{
-            margin-top: 20px;
-        }
-
-        ul li{
-            list-style-type: none;
-            display: inline-block;
-        }
-    </style>
+  <title>THIS IS MIARY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
-<div>
+<div class = "backcover">
+  <div class = "topcover">
 
-  <button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">메인</button>
+    <div class = "title"><h2>miary</h2></div>
 
-  <table>
-    <tr>
-      <th>번호</th>
-      <th>제목</th>
-      <th>작성일</th>
-    </tr>
+    <button class="menu" th:onclick="|location.href='@{/updateLoginHome}'|">홈</button>
+    <button class="menu" th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|">다이어리</button>
+    <button class="menu" th:onclick="|location.href='@{/guestBook}'|">방명록</button>
+    <button class="menu" th:onclick="|location.href='@{/members/{memberIdx}/edit (memberIdx=${memberIdx})}'|">내 정보</button>
 
-    <tr th:each="diary : ${diaryList}">
-      <td >
-        <span th:text="${diaryStat.count}"></span>
-      </td>
-      <td>
-        <a th:href="@{/diary/{diaryIdx}/Info(diaryIdx=${diary.diaryIdx})}">
-          <span th:text="${diary.title}"></span>
-        </a>
-      </td>
+    <form th:action="@{/logout}" method="post">
+      <button onclick="location.href='home.html'" type="submit" class = "logout">
+        로그아웃
+      </button>
+    </form>
 
-      <td>
-        <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span>
-      </td>
-    </tr>
-  </table>
+      <div class="main">
 
-  <button th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${diary.member.memberIdx})}'|" type="button">일기장</button>
+        <div class="board">
+          <table class="table">
+            <thead>
+            <tr>
+              <td>번호</td>
+              <td>제목</td>
+              <td>작성일</td>
+            </tr>
+            </thead>
 
+            <tbody class="tbody">
+            <tr th:each="diary : ${diaryList}">
+              <td><span th:text="${diaryStat.count}"></span></td>
+              <td>
+                <a th:href="@{/diary/{diaryIdx}/Info(diaryIdx=${diary.diaryIdx})}" style="text-decoration:none;">
+                  <span th:text="${diary.title}" style="color:black;"></span>
+                </a>
+              </td>
+              <td> <span th:text="${#temporals.format(diary.created, 'yyyy-MM-dd')}"></span></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <button th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|" type="button" style="margin-left:255px;">목록</button>
 
-</div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
+
+<style>
+
+body{
+    background-color: rgb(224,224,224);
+    background-size: 100%;
+    font-family: 'Gaegu', cursive;
+}
+
+.backcover{
+    background-color: white;
+    width: 1200px ;
+    height: 700px ;
+    margin: 75px auto;
+}
+
+.topcover{
+    background-color :rgb(41, 128, 185);
+    width : 1200px;
+    height : 56px;
+}
+
+.title{
+    color: white;
+    float: left;
+    width : 150px;
+    text-align: center;
+    font-size:25px;
+    margin-top:-25px;
+}
+
+.menu{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+
+    float:left;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+
+    border : 0;
+    outline: 0;
+
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.menu:hover{
+    box-shadow:7px -7px 5px rgba(0,0,0,0.5);
+    font-size:25px;
+}
+
+.logout{
+    cursor:pointer;
+    float: right;
+    margin-top: 30px;
+    margin-right : 10px;
+
+    background-color: rgb(41, 128, 185);
+    color : white;
+    border : 0;
+    outline: 0;
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    margin-top:15px;
+
+}
+
+.cover{
+        width: 1200px;
+        height: 600px;
+        background-color: white;
+
+        position: absolute;
+        top:150px;
+}
+
+
+.main{
+    position: absolute;
+    top :80px; left: 100px;
+
+}
+
+.table{
+    font-size:20px;
+    border-collapse: collapse;
+    width :1000px;
+    border : 1px solid gray;
+    text-align:center;
+    margin-left:255px;
+    margin-top:150px;
+
+
+}
+thead td {
+    background: #B2B2B2;
+}
+td{
+    height: 40px;
+    border-bottom:1px solid black;
+}
+
+
+</style>

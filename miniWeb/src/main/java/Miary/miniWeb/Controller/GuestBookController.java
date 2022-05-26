@@ -33,15 +33,19 @@ public class GuestBookController {
     private final ProfileService profileService;
 
     @GetMapping("/guestBook")
-    public String commentList(@RequestParam(required = false, defaultValue = "0", value = "page") int page, Model model) {
+    public String commentList(@RequestParam(required = false, defaultValue = "0", value = "page") int page, Model model, HttpServletRequest request) {
         Page<GuestBook> listPage = guestBookService.pageGuestBookList(page);
         int totalPage = listPage.getTotalPages();
 
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        model.addAttribute("memberIdx", loginMember.getMemberIdx());
 
         model.addAttribute("pageList", listPage.getContent());
         model.addAttribute("totalPage", totalPage);
 
         model.addAttribute("guestBookForm", new GuestBookForm());
+
 
         return "guestBook/list";
     }
@@ -49,12 +53,14 @@ public class GuestBookController {
     @PostMapping("/guestBook/new")
     public String commentWrite(@Valid @ModelAttribute("guestBookForm") GuestBookForm form, HttpServletRequest request, Model model) throws IOException{
         HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        model.addAttribute("memberIdx", loginMember.getMemberIdx());
 
         GuestBook guestBook = new GuestBook();
         guestBook.setCommentIdx(form.getCommentIdx());
         guestBook.setComments(form.getComments());
         guestBook.setCreated(LocalDateTime.now());
-        guestBook.setGuestBookMember((Member) session.getAttribute(SessionConst.LOGIN_MEMBER));
+        guestBook.setGuestBookMember(loginMember);
 
         guestBookService.saveComment(guestBook);
 
@@ -62,7 +68,10 @@ public class GuestBookController {
     }
 
     @GetMapping("/{guestBookIdx}/reply/new")
-    public String replyWriteForm(@PathVariable("guestBookIdx") Long guestBookIdx, Model model) {
+    public String replyWriteForm(@PathVariable("guestBookIdx") Long guestBookIdx, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        model.addAttribute("memberIdx", loginMember.getMemberIdx());
 
         model.addAttribute("replyForm", new ReplyForm());
 
@@ -79,11 +88,13 @@ public class GuestBookController {
     @PostMapping("/{guestBookIdx}/reply/new")
     public String replyWrite(@PathVariable("guestBookIdx") Long guestBookIdx, @Valid @ModelAttribute("replyForm") ReplyForm replyForm, HttpServletRequest request, Model model) throws IOException {
         HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        model.addAttribute("memberIdx", loginMember.getMemberIdx());
 
         Reply reply = new Reply();
         reply.setReplyIdx(replyForm.getReplyIdx());
         reply.setReplyContent(replyForm.getReplyContent());
-        reply.setReplyMember((Member) session.getAttribute(SessionConst.LOGIN_MEMBER));
+        reply.setReplyMember(loginMember);
 
         GuestBook guestBook = guestBookService.findByCommentIdx(guestBookIdx);
         reply.setGuestBookCmtIdx(guestBook);

@@ -7,6 +7,7 @@ import Miary.miniWeb.MemberManager.profile.Profile;
 import Miary.miniWeb.MemberManager.profile.ProfileForm;
 import Miary.miniWeb.MemberManager.profile.profileImage.ProfileImage;
 import Miary.miniWeb.diary.message.Message;
+import Miary.miniWeb.login.LoginForm;
 import Miary.miniWeb.service.*;
 import Miary.miniWeb.session.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final ProfileService profileService;
-    private final ProfileImageService profileImageService;
 
     @GetMapping(value = "/members/new")
     public String createForm(Model model) {
@@ -56,8 +55,9 @@ public class MemberController {
         member.setProfile(form.getProfile());
 
         memberService.join(member);
+        model.addAttribute("loginForm", new LoginForm());
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping(value = "/members/{memberIdx}/edit")
@@ -74,11 +74,12 @@ public class MemberController {
         memberEditForm.setJoindate(member.getJoindate());
 
         model.addAttribute("memberEditForm", memberEditForm);
+        model.addAttribute("memberIdx", member.getMemberIdx());
         return "members/updateMemberForm";
     }
 
     @PostMapping(value = "/members/{memberIdx}/edit")
-    public String updateMember(@ModelAttribute("memberEditForm") MemberForm memberEditForm){
+    public String updateMember(@ModelAttribute("memberEditForm") MemberForm memberEditForm, Model model){
         Member member = new Member();
         member.setMemberIdx(memberEditForm.getMemberIdx());
         member.setId(memberEditForm.getId());
@@ -88,11 +89,12 @@ public class MemberController {
         member.setTel(memberEditForm.getTel());
         member.setJoindate(memberEditForm.getJoindate());
         member.setProfile(memberEditForm.getProfile());
+        model.addAttribute("memberIdx", member.getMemberIdx());
 
         memberService.update(member);
 
         log.info("update member name = {}", member.getName());
-        return "members/memberInfo";
+        return "members/updateMemberForm";
     }
 
     //관리자용 회원 관리

@@ -1,32 +1,165 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>GuestBook</title>
-
-
+    <title>THIS IS MIARY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
-<div>
-    작성자 : <span th:text="${content.guestBookMember.getProfile().getNickname()}"></span><br>
-    내용 : <span th:text="${content.comments}"></span>
-</div>
-<br>
-<form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBookIdx})}" th:object="${replyForm}" method="post">
-    <input type="hidden" th:field="*{replyIdx}"/>
-    <div>
-        <input type="text" th:field="*{replyContent}" class="form-control" required>
-        <button type="submit">댓글</button>
+<div class = "backcover">
+    <div class = "topcover">
+
+        <div class = "title"><h2>MIARY</h2></div>
+
+        <button class="menu" th:onclick="|location.href='@{/updateLoginHome}'|">홈</button>
+        <button class="menu" th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|">다이어리</button>
+        <button class="menu" th:onclick="|location.href='@{/guestBook}'|">방명록</button>
+        <button class="menu" th:onclick="|location.href='@{/members/{memberIdx}/edit (memberIdx=${memberIdx})}'|">내 정보</button>
+
+        <div class="content">
+            <div class="comment">
+                <div class="commentTop">
+                    <img class="nicknameImage" th:src="|/images/nickname.png|">
+                    <span th:text="${content.guestBookMember.getProfile().getNickname()}" style="font-size:20px; font-weight:bold;"></span><br><br>
+                    <span th:text="${content.comments}"></span>
+                </div>
+                <br>
+                <form th:action="@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBookIdx})}" th:object="${replyForm}" method="post">
+                    <input type="hidden" th:field="*{replyIdx}"/>
+                    <div>
+                        <input type="text" th:field="*{replyContent}" class="form-control" required size = 85 style="font-family: 'Gaegu', cursive;">
+                        <button type="submit" style="font-family: 'Gaegu', cursive; font-weight:bold;">댓글</button>
+                    </div>
+                </form>
+            </div>
+            <br>
+
+            <div th:each="reply : ${replyInfo}" class ="reply">
+                <img class="nicknameImage" th:src="|/images/nickname.png|" style="padding-top:5px;">
+                <span th:text="${reply.replyMember.getProfile().getNickname()}" style="font-size:18px; font-weight:bold;"></span><br>
+                 <span th:text="${reply.replyContent}"></span>
+
+            </div>
+
+            <button th:onclick="|location.href='@{/guestBook}'|" type="button" style="margin-left:10px; font-family: 'Gaegu', cursive; font-weight:bold;">목록</button>
+        </div>
+
+
     </div>
-</form>
-<div th:each="reply : ${replyInfo}">
-    작성자 : <span th:text="${reply.replyMember.getProfile().getNickname()}"></span>
-    | 댓글 내용 : <span th:text="${reply.replyContent}"></span>
 </div>
 
 
 
-<button th:onclick="|location.href='@{/guestBook}'|" type="button">커뮤니티로</button>
 
 </body>
 </html>
+
+<style>
+
+body{
+    background-color: rgb(224,224,224);
+    background-size: 100%;
+    font-family: 'Gaegu', cursive;
+}
+
+.backcover{
+    background-color: white;
+    width: 1200px;
+    height: 700px;
+    margin: 75px auto;
+}
+
+.topcover{
+    background-color :rgb(41, 128, 185);
+    width : 1200px;
+    height : 56px;
+}
+
+.title{
+    color: white;
+    float: left;
+    width : 150px;
+    text-align: center;
+    font-size:25px;
+    margin-top:-25px;
+}
+
+.menu{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+
+    float:left;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+
+    border : 0;
+    outline: 0;
+
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    font-weight:bold;
+
+}
+
+.menu:hover{
+    box-shadow:7px -7px 5px rgba(0,0,0,0.5);
+    font-size:25px;
+}
+
+.logout{
+    cursor:pointer;
+    float: right;
+    margin-top: 30px;
+    margin-right : 10px;
+
+    background-color: rgb(41, 128, 185);
+    color : white;
+    border : 0;
+    outline: 0;
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    margin-top:15px;
+
+}
+
+.nicknameImage{
+    width : 15px;
+    height : 15px;
+}
+
+    .content{
+        padding-top:100px;
+        padding-left:300px;
+    }
+
+    .comment{
+        width:600px;
+        margin-bottom:10px;
+        margin-right:500px;
+    }
+    .commentTop{
+        height:100px;
+        padding-left:20px;
+        padding-top:10px;
+        background-color: rgb(224,224,224);
+        border-radius:40px;
+
+
+    }
+    .commentBottom{
+        width:600px;
+    }
+    .reply{
+        background-color: #C5E0F3;
+        border-radius: 40px;
+        margin-bottom:15px;
+        padding-bottom:6px;
+        width:580px;
+        padding-left:20px;
+    }
+</style>

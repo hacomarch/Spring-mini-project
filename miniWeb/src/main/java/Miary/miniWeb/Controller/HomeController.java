@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @Slf4j
@@ -41,7 +40,7 @@ public class HomeController{
         }
 
         //세션이 유지되면 로그인으로 이동
-        model.addAttribute("member", loginMember);
+        model.addAttribute("memberIdx", loginMember.getMemberIdx());
 
         Diary latestDiary = new Diary();
         List<Image> imageFiles = new ArrayList<>();
@@ -53,7 +52,7 @@ public class HomeController{
 
         if (!diaryList.isEmpty()) {
             latestDiary = diaryList.get(diaryList.size() - 1);
-            imageFiles = imageService.findByDiaryIdx(latestDiary);
+            imageFiles = imageService.findByDiary(latestDiary);
 
             //역순으로 정렬해서, 만든 날짜 기준 정렬해서 모델에 저장
             Collections.sort(diaryList, Collections.reverseOrder());

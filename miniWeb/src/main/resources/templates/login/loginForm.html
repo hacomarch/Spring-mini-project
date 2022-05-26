@@ -1,88 +1,66 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-<!--    <script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous">-->
-<!--        function sessionCheck(){-->
-<!--            var sessionUserName = '';-->
-<!--            $.ajax({-->
-<!--                type : 'POST',-->
-<!--                datatype : 'json',-->
-<!--                url : 'memberSessionCheck',-->
-<!--                async : false,-->
-<!--                success : function(result){-->
-<!--                    sessionUserName = result;-->
-<!--                },-->
-<!--                error : function(xhr, status, error){-->
-<!--                    alert('ajax error');-->
-<!--                }-->
-<!--            });-->
-<!--            if(sessionUserName == ''){-->
-<!--                var reLogin = confirm('확인 시 로그인 창으로 이동합니다.' + '\n' + '취소 시 현재 창이 유지됩니다.');-->
-<!--                if(reLogin){-->
-<!--                    location.href = 'loginForm';-->
-<!--                    return;-->
-<!--                }-->
-<!--            }else{ return; }-->
-<!--        }-->
-
-<!--    </script>-->
-
-    <style>
-        .field-error{
-            color : red;
-        }
-    </style>
-
+    <title>MIARY Log-In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form action="home.html" th:action th:object="${loginForm}" method="post">
+<form action="home.html" th:action th:object="${loginForm}" method="post">
 
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-               th:text="${err}">오류 메시지</p>
-        </div>
-
-        <div class="wrap">
-            <div class="login">
-                <h2>MIARY</h2>
-                <div class="login_id">
-                    <h4>ID</h4>
-                    <input type="text" id="id" th:field="*{id}" class="form-control" required>
-                </div>
-                <div class="login_pw">
-                    <h4>Password</h4>
-                    <input type="password" id="password" th:field="*{password}" class="form-control" required>
-                </div>
-
-                <div class="submit">
-                    <input type="submit" value="Login">
+    <div class="wrap">
+        <div class="login">
+            <div><h1>MIARY</h1></div><br>
+            <div class="login_id">
+                <h2>ID</h2>
+                <input type="text" id="id" th:field="*{id}" class="form-control" required>
+            </div>
+            <div class="login_pw">
+                <h2>Password</h2>
+                <input type="password" id="password" th:field="*{password}" class="form-control" required>
+            </div>
+            <div class="login_etc">
+                <div class="forgot_pw">
+                    <br>
+                    <br>
+                    <br>
+                    <a th:href="@{/members/new}">회원가입</a>
                 </div>
             </div>
+            <div class="submit">
+                <a href="main.html"><button type="submit" formaction="">Login</button></a>
+            </div>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}">오류 메시지</p>
+            </div>
         </div>
-    </form>
-
+    </div>
+</form>
 </body>
 </html>
+
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: 'Gaegu', cursive;
   }
-  
+
   a {
     text-decoration: none;
     color: black;
   }
-  
-  li {
-    list-style: none;
+
+  .miary{
+    display: flex;
+    position:static;
+
   }
-  
+
   .wrap {
     width: 100%;
     height: 100vh;
@@ -91,10 +69,10 @@
     justify-content: center;
     background:  rgb(224,224,224);
   }
-  
+
   .login {
-    width: 30%;
-    height: 600px;
+    width: 1200px;
+    height: 700px;
     background: white;
     border-radius: 20px;
     display: flex;
@@ -102,38 +80,17 @@
     align-items: center;
     flex-direction: column;
   }
-  
-  h2 {
+
+  h1 {
     color: rgb(41, 128, 185);
-    font-size: 2em;
+    font-size: 50px;
   }
-  .login_sns {
-    padding: 20px;
-    display: flex;
-  }
-  
-  .login_sns li {
-    padding: 0px 15px;
-  }
-  
-  .login_sns a {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 50px;
-    background: white;
-    font-size: 20px;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4), -3px -3px 5px rgba(0, 0, 0, 0.1);
-  }
-  
+
   .login_id {
     margin-top: 20px;
-    width: 80%;
+    width: 500px;
   }
-  
+
   .login_id input {
     width: 100%;
     height: 50px;
@@ -142,28 +99,41 @@
     padding: 0px 20px;
     border: 1px solid lightgray;
     outline: none;
+    font-size:22px;
   }
-  
+
   .login_pw {
     margin-top: 20px;
-    width: 80%;
+    width: 500px;
   }
-  
+
   .login_pw input {
     width: 100%;
     height: 50px;
     border-radius: 30px;
     margin-top: 10px;
     padding: 0px 20px;
+    margin-bottom:-30px;
     border: 1px solid lightgray;
     outline: none;
+    font-size:22px;
+  }
+
+  .login_etc {
+    padding: 5px;
+    width: 80%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
   }
 
   .submit {
     margin-top: 50px;
-    width: 80%;
+    width: 35%;
   }
-  .submit input {
+  .submit button {
     width: 100%;
     height: 50px;
     border: 0;
@@ -171,11 +141,14 @@
     border-radius: 40px;
     background: rgb(41, 128, 185);
     color: white;
-    font-size: 1.2em;
+    font-size: 30px;
     letter-spacing: 2px;
   }
 
   .field-error {
     color: red;
+    position:relative;
+    top : -90px;
   }
+
 </style>

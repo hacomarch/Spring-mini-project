@@ -1,68 +1,201 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>GuestBook</title>
-
-    <style>
-        ul{
-            margin-top: 20px;
-        }
-
-        ul li{
-            list-style-type: none;
-            display: inline-block;
-        }
-    </style>
-
-    <script>
-        function callReplyForm(){
-            var form = document.getElementById("replyWrite");
-            if(form.style.display == 'none'){
-                form.style.display = 'block';
-            }else{
-                form.style.display = 'none';
-            }
-        }
-    </script>
-
+    <title>THIS IS MIARY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class = "backcover">
+    <div class = "topcover">
 
-<form th:action="@{/guestBook/new}" th:object="${guestBookForm}" method="post">
-    <textarea th:field=*{comments} cols="50" rows="10" required></textarea>
-    <button type="submit">등록</button>
-</form>
+        <div class = "title"><h2>MIARY</h2></div>
 
-<hr>
+        <button class="menu" th:onclick="|location.href='@{/updateLoginHome}'|">홈</button>
+        <button class="menu" th:onclick="|location.href='@{/{memberIdx}/diary(memberIdx=${memberIdx})}'|">다이어리</button>
+        <button class="menu" th:onclick="|location.href='@{/guestBook}'|">방명록</button>
+        <button class="menu" th:onclick="|location.href='@{/members/{memberIdx}/edit (memberIdx=${memberIdx})}'|">내 정보</button>
 
-<div th:each="guestBook : ${pageList}" >
-    <div>
-        <span th:text="${guestBookStat.count}"></span>
-        작성자 : <span th:text="${guestBook.getGuestBookMember().getProfile().getNickname()}"></span>
-        | <span th:text="${#temporals.format(guestBook.created, 'yyyy-MM-dd')}"></span>
-    </div>
+        <form th:action="@{/logout}" method="post">
+            <button onclick="location.href='home.html'" type="submit" class = "logout">
+                로그아웃
+            </button>
+        </form>
 
-    <div>
-        내용 : <span th:text="${guestBook.comments}"></span>
-        <br>
-        <button th:onclick="|location.href='@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}'|" type="submit">댓글</button>
+        <form th:action="@{/guestBook/new}" th:object="${guestBookForm}" method="post">
+            <textarea th:field=*{comments} cols="100" rows="5" required style = "margin-left:-420px; margin-top:100px; padding-left:5px; padding-top:8px; padding-right:28px; font-family: 'Gaegu', cursive;"></textarea>
+            <button type="submit" style = "position:absolute; margin-top:100px;margin-left:5px;height:94px; font-family: 'Gaegu', cursive; font-size:15px; font-weight:bold;">등록</button>
+        </form>
 
-    </div>
 
-    <hr>
+
+        <div class = guest th:each="guestBook : ${pageList}" >
+            <div>
+                <img class="nicknameImage" th:src="|/images/nickname.png|">
+                <span th:text="${guestBook.getGuestBookMember().getProfile().getNickname()}" style="font-weight:bold; font-size:18px;"></span>
+                | <span th:text="${#temporals.format(guestBook.created, 'yyyy-MM-dd')}"></span>
+            </div>
+            <br>
+            <div class = reply>
+                <br><span th:text="${guestBook.comments}" style = "margin-left:-200px;"></span>
+
+                <button th:onclick="|location.href='@{/{guestBookIdx}/reply/new(guestBookIdx=${guestBook.commentIdx})}'|" type="submit" style="font-family: 'Gaegu', cursive;">댓글</button>
+
+            </div>
+
+
+        </div>
+
+
+        <div>
+            <ul>
+                <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
+                    <a th:href="@{/guestBook(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+                </li>
+            </ul>
+        </div>
+
 </div>
-
-<button th:onclick="|location.href='@{/updateLoginHome}'|" type="button">홈으로</button>
-
-<div>
-    <ul>
-        <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
-            <a th:href="@{/guestBook(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
-        </li>
-    </ul>
 </div>
-
-
 </body>
 </html>
+
+<style>
+body{
+    background-color: rgb(224,224,224);
+    background-size: 100%;
+    font-family: 'Gaegu', cursive;
+}
+
+.backcover{
+    background-color: white;
+    width: 1200px;
+    height: 700px;
+    margin: 75px auto;
+}
+
+.topcover{
+    background-color :rgb(41, 128, 185);
+    width : 1200px;
+    height : 56px;
+}
+
+.title{
+    color: white;
+    float: left;
+    width : 150px;
+    text-align: center;
+    font-size:25px;
+    margin-top:-25px;
+}
+
+.menu{
+    background-color: white;
+    width: 100px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 15%;
+
+    float:left;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+
+    border : 0;
+    outline: 0;
+
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    font-weight:bold;
+
+}
+.menu:hover{
+    box-shadow:7px -7px 5px rgba(0,0,0,0.5);
+    font-size:25px;
+}
+
+.logout{
+    cursor:pointer;
+    float: right;
+    margin-top: 30px;
+    margin-right : 10px;
+
+    background-color: rgb(41, 128, 185);
+    color : white;
+    border : 0;
+    outline: 0;
+    font-family: 'Gaegu', cursive;
+    font-size:20px;
+    margin-top:15px;
+
+}
+
+ul{
+    margin-top: 50px;
+    margin-left:485px;
+ }
+ul li{
+    list-style-type: none;
+    display: inline-block;
+}
+ul li a{
+    <!--    position : absolute;-->
+    display:flex;
+
+    margin:0 5px;
+    padding:7px;
+    margin-right:5px;
+    border:1px solid #e6e6e6;
+
+    width:28px;
+
+    height:28px;
+
+    line-height:28px;
+
+    text-align:center;
+
+    background-color:#fff;
+
+    font-size:13px;
+
+    color:black;
+
+    text-decoration:none;
+
+    font-weight:bold;
+}
+
+.guest{
+    position: relative;
+    width:700px;
+    padding:10px;
+    bottom:-10px;
+    margin-left:215px;
+    margin-top:15px;
+    background-color:#C5E0F3;
+    border-radius : 5px;
+<!--    display : flex;-->
+
+}
+.guest:after{
+        content: "";
+        border-top : 15px solid #C5E0F3;
+        border-left: 15px solid transparent;
+        border-right:0px solid transparent;
+        border-bottom:0px solid transparent;
+        position:absolute;
+        margin-top:-55px;
+        margin-left:-23px;
+
+    }
+.nicknameImage{
+    width : 15px;
+    height : 15px;
+}
+.reply{
+    margin-left:200px;
+    margin-top:-30px;
+}
+</style>

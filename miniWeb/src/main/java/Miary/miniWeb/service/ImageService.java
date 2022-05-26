@@ -33,7 +33,7 @@ public class ImageService {
     @Value("${file.dir}")
     private String fileDir;
 
-    public List<Image> findByDiaryIdx(Diary diary) {
+    public List<Image> findByDiary(Diary diary) {
         return imageRepository.findDiary(diary);
     }
 
